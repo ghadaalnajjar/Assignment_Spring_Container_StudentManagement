@@ -4,7 +4,11 @@ import org.example.config.AppConfig;
 import org.example.data_access.StudentDao;
 import org.example.data_access.StudentDaoListImpl;
 import org.example.model.Student;
+import org.example.service.StudentManagement;
+import org.example.service.StudentManagementConsoleImpl;
+import org.example.util.UserInputService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.List;
 
@@ -15,8 +19,9 @@ public class App {
         StudentDao studentDao = new StudentDaoListImpl();
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class); //using for AnnotationConfigApplicationContext
-
+        //ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         StudentDao dao = context.getBean("studentDao", StudentDao.class);
+
         Student student = new Student("Ana");
         Student student1 = dao.save(student);
         Student student2 = dao.save(new Student("ana2"));
@@ -28,6 +33,26 @@ public class App {
         List<Student> findAllStudent = dao.findAll();
         System.out.println("findAllStudent = " + findAllStudent.toString());
 
+
+
+        UserInputService userInputService = context.getBean("userInputService", UserInputService.class);
+
+
+        int getId = userInputService.getInt();
+        System.out.println("getId = " + getId);
+
+        String getString = userInputService.getString();
+        System.out.println("getString = " + getString);
+
+        StudentManagement studentManagement = context.getBean("studentManagement", StudentManagement.class);
+        studentManagement.create();
+
+
+        System.out.println("findStudent = " + studentManagement.find(3));
+
+        System.out.println("removeStudent = " + studentManagement.remove(3));
+
+        System.out.println("findAllStudent = " + studentManagement.findAll());
     }
 }
 

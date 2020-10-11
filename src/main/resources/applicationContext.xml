@@ -7,7 +7,18 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <!-- Define your beans here -->
-    <context:component-scan base-package="org.example.*"/>
 
-    </beans>
+    <!-- Define your beans here -->
+
+    <context:component-scan base-package="org.example.*"/>
+    <bean id="studentDao" class="org.example.data_access.StudentDaoListImp"/>
+
+    <bean id="userInputService" class="org.example.util.ScannerInputService"/>
+
+    <bean id="studentManagement" class="org.example.service.StudentManagementConsoleImpl">
+        <!-- <property name="studentDao" ref="studentDao"/>
+         <property name="userInputService" ref="userInputService"/>-->
+         <constructor-arg ref="studentDao" name="studentDao"/>
+         <constructor-arg ref="userInputService" name="userInputService"/>
+     </bean>
+ </beans>
